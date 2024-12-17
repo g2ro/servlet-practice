@@ -14,16 +14,6 @@
 	
 	EmaillistDao dao = new EmaillistDao();
 	dao.insert(vo);
+	
+	response.sendRedirect("/emaillist01");
 %>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
-	<%=firstName %><br>
-	<%=lastName %><br>
-	<%=email %>
-</body>
-</html>

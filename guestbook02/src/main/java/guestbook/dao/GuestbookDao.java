@@ -18,7 +18,7 @@ public class GuestbookDao {
 
 		try (
 				Connection conn = getConnection(); 
-				PreparedStatement pstmt = conn.prepareStatement("select id, name, contents, date_format('%Y-%m-%d %h:%i:%s', reg_date) from guestbook order by reg_date desc");
+				PreparedStatement pstmt = conn.prepareStatement("select id, name, contents, date_format(reg_date, '%Y-%m-%d %h:%i:%s') from guestbook order by reg_date desc");
 				ResultSet rs = pstmt.executeQuery();
 			){
 			
@@ -44,6 +44,49 @@ public class GuestbookDao {
 		return result;
 	}
 
+	public int insert(GuestbookVo vo) {
+		int count = 0;
+
+		try (
+				Connection conn = getConnection();
+				PreparedStatement pstmt = conn.prepareStatement("INSERT INTO guestbook values(null, ?, ?, ?, now());");
+				){
+
+			pstmt.setString(1, vo.getName());
+			pstmt.setString(2, vo.getPassword());
+			pstmt.setString(3, vo.getContents());
+
+			count = pstmt.executeUpdate();
+
+
+		} catch (SQLException e) {
+			System.out.println("드라이버 로딩 실패: " + e);
+		} 
+		return count;
+		
+	}
+	
+	public int deleteByIdAndPassword(Long id, String password) {
+		int count = 0;
+
+		try (
+				Connection conn = getConnection();
+				PreparedStatement pstmt = conn.prepareStatement("delete from guestbook where id=? and password=?");
+				){
+
+			pstmt.setLong(1, id);
+			pstmt.setString(2, password);
+
+			count = pstmt.executeUpdate();
+
+
+		} catch (SQLException e) {
+			System.out.println("드라이버 로딩 실패: " + e);
+		} 
+		return count;
+		
+	}
+	
 	private Connection getConnection() throws SQLException {
 		Connection conn = null;
 
@@ -58,4 +101,8 @@ public class GuestbookDao {
 
 		return conn;
 	}
+
+	
+
+	
 }

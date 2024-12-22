@@ -18,7 +18,7 @@ public class CookieServlet extends HttpServlet {
 
 		// 쿠키 읽기
 		Cookie[] cookies = request.getCookies();
-		if(cookies != null &cookies.length > 0) {
+		if(cookies != null && cookies.length > 0) {
 			for(Cookie cookie : cookies) {
 				if("visitCount".equals(cookie.getName())) {
 					visitCount = Integer.parseInt(cookie.getValue());
